@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:background="@color/colorPrimary">
+
+    <CheckBox
+        android:id="@+id/option1"
+        style="@style/Options"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/question_textview"
+        tools:text="CheckBox" />
+
+    <TextView
+        android:id="@+id/question_textview"
+        style="@style/QuestionText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="TextView" />
+
+    <CheckBox
+        android:id="@+id/option2"
+        style="@style/Options"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/option1"
+        tools:text="CheckBox" />
+
+    <CheckBox
+        android:id="@+id/option3"
+        style="@style/Options"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/option2"
+        tools:text="CheckBox" />
+
+    <CheckBox
+        android:id="@+id/option4"
+        style="@style/Options"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/option3"
+        tools:text="CheckBox" />
+</android.support.constraint.ConstraintLayout>
