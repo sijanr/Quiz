@@ -31,14 +31,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final CheckBox checkBox = (CheckBox) findViewById(R.id.option1);
 
 //      set a listener to floating action button
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Correct: " + String.valueOf(quizAdapter.getTotalCorrect()) + "/" + String.valueOf(quizLists.size()) + "\nSelect reset from options to reset the game", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Correct: " + (quizAdapter.getTotalCorrect()) + "/" + (quizLists.size()) + "\nSelect reset from options to reset the game", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerview);
 
 //      create recycler view adapter and pass the quiz lists
-        quizAdapter = new QuizListAdapter(this, quizLists);
+        quizAdapter = new QuizListAdapter(quizLists);
 
 //      set the recycler view adapter to populate the view with the quiz lists
         mRecyclerView.setAdapter(quizAdapter);

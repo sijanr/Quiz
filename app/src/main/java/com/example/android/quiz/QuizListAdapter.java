@@ -8,18 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.LinkedList;
 
 public class QuizListAdapter extends RecyclerView.Adapter<QuizListAdapter.WordViewHolder> {
 
     private LinkedList<QuizList> mQuizList = new LinkedList<>();
-    private LayoutInflater mInflater;
     private int mTotalCorrect = 0;
 
 
     class WordViewHolder extends RecyclerView.ViewHolder {
-        final QuizListAdapter mAdapter;
         private final TextView questionView;
         private final CheckBox option1;
         private final CheckBox option2;
@@ -30,20 +29,118 @@ public class QuizListAdapter extends RecyclerView.Adapter<QuizListAdapter.WordVi
         /**
          * Get the view ids of the custom view for items in the recycler view
          */
-        public WordViewHolder(View itemView, QuizListAdapter adapter) {
+        public WordViewHolder(final View itemView) {
             super(itemView);
             questionView = itemView.findViewById(R.id.question_textview);
             option1 = itemView.findViewById(R.id.option1);
             option2 = itemView.findViewById(R.id.option2);
             option3 = itemView.findViewById(R.id.option3);
             option4 = itemView.findViewById(R.id.option4);
-            this.mAdapter = adapter;
+
+            //set click listener for option 1
+            option1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //uncheck the option that may have been selected before
+                    option2.setChecked(false);
+                    option3.setChecked(false);
+                    option4.setChecked(false);
+
+                    int position = getAdapterPosition();
+                    //update the score on its correctness
+                    boolean scoreGiven = mQuizList.get(position).isScoreGiven();
+                    if (!scoreGiven && option1.getId() == mQuizList.get(position).getAnswerID()) {
+                        mTotalCorrect++;
+                        mQuizList.get(position).setScoreGiven(true);
+                    } else if (scoreGiven && option1.getId() != mQuizList.get(position).getAnswerID()) {
+                        mTotalCorrect--;
+                        mQuizList.get(position).setScoreGiven(false);
+                    } else if (scoreGiven && option1.getId() == mQuizList.get(position).getAnswerID()) {
+                        mTotalCorrect--;
+                        mQuizList.get(position).setScoreGiven(false);
+                    }
+                }
+            });
+
+            //set click listener for option 2
+            option2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //uncheck the option that may have been selected before
+                    option1.setChecked(false);
+                    option3.setChecked(false);
+                    option4.setChecked(false);
+
+                    int position = getAdapterPosition();
+                    //update the score on its correctness
+                    boolean scoreGiven = mQuizList.get(position).isScoreGiven();
+                    if (!scoreGiven && option2.getId() == mQuizList.get(position).getAnswerID()) {
+                        mTotalCorrect++;
+                        mQuizList.get(position).setScoreGiven(true);
+                    } else if (scoreGiven && option2.getId() != mQuizList.get(position).getAnswerID()) {
+                        mTotalCorrect--;
+                        mQuizList.get(position).setScoreGiven(false);
+                    } else if (scoreGiven && option2.getId() == mQuizList.get(position).getAnswerID()) {
+                        mTotalCorrect--;
+                        mQuizList.get(position).setScoreGiven(false);
+                    }
+                }
+            });
+
+            //click listener for item 3
+            option3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //uncheck the option that may have been selected before
+                    option2.setChecked(false);
+                    option1.setChecked(false);
+                    option4.setChecked(false);
+
+                    int position = getAdapterPosition();
+                    //update the score on its correctness
+                    boolean scoreGiven = mQuizList.get(position).isScoreGiven();
+                    if (!scoreGiven && option3.getId() == mQuizList.get(position).getAnswerID()) {
+                        mTotalCorrect++;
+                        mQuizList.get(position).setScoreGiven(true);
+                    } else if (scoreGiven && option3.getId() != mQuizList.get(position).getAnswerID()) {
+                        mTotalCorrect--;
+                        mQuizList.get(position).setScoreGiven(false);
+                    } else if (scoreGiven && option3.getId() == mQuizList.get(position).getAnswerID()) {
+                        mTotalCorrect--;
+                        mQuizList.get(position).setScoreGiven(false);
+                    }
+                }
+            });
+
+            //click listener for item 4
+            option4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //uncheck the option that may have been selected before
+                    option2.setChecked(false);
+                    option1.setChecked(false);
+                    option3.setChecked(false);
+
+                    int position = getAdapterPosition();
+                    //update the score on its correctness
+                    boolean scoreGiven = mQuizList.get(position).isScoreGiven();
+                    if (!scoreGiven && option4.getId() == mQuizList.get(position).getAnswerID()) {
+                        mTotalCorrect++;
+                        mQuizList.get(position).setScoreGiven(true);
+                    } else if (scoreGiven && option4.getId() != mQuizList.get(position).getAnswerID()) {
+                        mTotalCorrect--;
+                        mQuizList.get(position).setScoreGiven(false);
+                    } else if (scoreGiven && option4.getId() == mQuizList.get(position).getAnswerID()) {
+                        mTotalCorrect--;
+                        mQuizList.get(position).setScoreGiven(false);
+                    }
+                }
+            });
         }
     }
 
 
-    public QuizListAdapter(Context context, LinkedList<QuizList> quizLists) {
-        mInflater = LayoutInflater.from(context);
+    public QuizListAdapter(LinkedList<QuizList> quizLists) {
         mQuizList = quizLists;
     }
 
@@ -54,8 +151,8 @@ public class QuizListAdapter extends RecyclerView.Adapter<QuizListAdapter.WordVi
     @NonNull
     @Override
     public QuizListAdapter.WordViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View mItemView = mInflater.inflate(R.layout.template_layout, viewGroup, false);
-        return new WordViewHolder(mItemView, this);
+        View mItemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.template_layout, viewGroup, false);
+        return new WordViewHolder(mItemView);
     }
 
 
@@ -73,121 +170,6 @@ public class QuizListAdapter extends RecyclerView.Adapter<QuizListAdapter.WordVi
         wordViewHolder.option2.setText(mQuizList.get(i).getOption2());
         wordViewHolder.option3.setText(mQuizList.get(i).getOption3());
         wordViewHolder.option4.setText(mQuizList.get(i).getOption4());
-
-//      check if the first option is the correct option and if it is the correct one add the score value
-        wordViewHolder.option1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (wordViewHolder.option2.isChecked()) {
-                    wordViewHolder.option2.setChecked(false);
-                }
-
-                if (wordViewHolder.option3.isChecked()) {
-                    wordViewHolder.option3.setChecked(false);
-                }
-
-                if (wordViewHolder.option4.isChecked()) {
-                    wordViewHolder.option4.setChecked(false);
-                }
-
-                wordViewHolder.option1.setChecked(true);
-
-                if (wordViewHolder.option1.getId() == mQuizList.get(i).getAnswerID()) {
-                    mTotalCorrect++;
-                    mQuizList.get(i).setScoreGiven(true);
-                } else if (mQuizList.get(i).isScoreGiven()) {
-                    mTotalCorrect--;
-                    mQuizList.get(i).setScoreGiven(false);
-                }
-            }
-        });
-
-//      check if the second option is the correct option and if it is the correct one add the score value
-        wordViewHolder.option2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (wordViewHolder.option1.isChecked()) {
-                    wordViewHolder.option1.setChecked(false);
-                }
-
-                if (wordViewHolder.option3.isChecked()) {
-                    wordViewHolder.option3.setChecked(false);
-                }
-
-                if (wordViewHolder.option4.isChecked()) {
-                    wordViewHolder.option4.setChecked(false);
-                }
-
-                wordViewHolder.option2.setChecked(true);
-
-                if (wordViewHolder.option2.getId() == mQuizList.get(i).getAnswerID()) {
-                    mTotalCorrect++;
-                    mQuizList.get(i).setScoreGiven(true);
-                } else if (mQuizList.get(i).isScoreGiven()) {
-                    mTotalCorrect--;
-                    mQuizList.get(i).setScoreGiven(false);
-                }
-            }
-        });
-
-
-        //      check if the third option is the correct option and if it is the correct one add the score value
-        wordViewHolder.option3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (wordViewHolder.option2.isChecked()) {
-                    wordViewHolder.option2.setChecked(false);
-                }
-
-                if (wordViewHolder.option1.isChecked()) {
-                    wordViewHolder.option1.setChecked(false);
-                }
-
-                if (wordViewHolder.option4.isChecked()) {
-                    wordViewHolder.option4.setChecked(false);
-                }
-
-                wordViewHolder.option3.setChecked(true);
-
-                if (wordViewHolder.option3.getId() == mQuizList.get(i).getAnswerID()) {
-                    mTotalCorrect++;
-                    mQuizList.get(i).setScoreGiven(true);
-                } else if (mQuizList.get(i).isScoreGiven()) {
-                    mTotalCorrect--;
-                    mQuizList.get(i).setScoreGiven(false);
-                }
-            }
-        });
-
-
-        //      check if the fourth option is the correct option and if it is the correct one add the score value
-        wordViewHolder.option4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (wordViewHolder.option2.isChecked()) {
-                    wordViewHolder.option2.setChecked(false);
-                }
-
-                if (wordViewHolder.option3.isChecked()) {
-                    wordViewHolder.option3.setChecked(false);
-                }
-
-                if (wordViewHolder.option1.isChecked()) {
-                    wordViewHolder.option1.setChecked(false);
-                }
-
-                wordViewHolder.option4.setChecked(true);
-
-                if (wordViewHolder.option4.getId() == mQuizList.get(i).getAnswerID()) {
-                    mTotalCorrect++;
-                    mQuizList.get(i).setScoreGiven(true);
-                } else if (mQuizList.get(i).isScoreGiven()) {
-                    mTotalCorrect--;
-                    mQuizList.get(i).setScoreGiven(false);
-                }
-            }
-        });
-
     }
 
 
