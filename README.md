@@ -6,7 +6,7 @@ Import the project in Android Studio and compile it to an android device
 
 ### Prerequisites
   * Android Studio
-  * Java SE Development Kit
+  * Java Development Kit
   * Android device running on at least Android 4.1
   
 ## Screenshots
